@@ -37,21 +37,35 @@ const genreId = {
 	'Theatre': 'KnvZfZ7v7l1'
 };
 
+const isValid = function(category, genre) {
+	if (categories.includes(cat) && genreId[genre] !== undefined) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
 module.exports.register =  function(req, res) {
         //store login state and display 
 	//info as characters
         req.session.user = req.body.user;
         req.session.login = 'true';
-	req.session.category = req.body.category;
-	req.session.genre = req.body.genre;
-        
-	//add to databse
-	db.addUser(req.body);
+	
+	const cat = req.body.category;
+	const genre = req.body.genre;
+	if (isValid(cat, genre) {
+		req.session.category = req.body.category;
+		req.session.genre = req.body.genre;
+		//add to databse
+		db.addUser(req.body);
 
-	//print with password blocked
-	const body = JSON.parse(JSON.stringify(req.body));
-	body.password = '********';
-        res.json(body);
+		//print with password blocked
+		const body = JSON.parse(JSON.stringify(req.body));
+		body.password = '********';
+        	res.json(body);
+	} else {
+		res.json({ error: 'Invalid category or genre' });
+	}
 };
 
 module.exports.login = function(req, res) {
@@ -110,16 +124,16 @@ module.exports.setPreferences = function(req, res) {
 		const cat = req.body.category;
 		const genre = req.body.genre;
 
-		if (categories.includes(cat) && genreId[genre] !== undefined) {
+		if (isValid(cat, genre) {
 			db.updatePreference(req.session.user, cat, genre);
 			req.session.genre = genre;
 			req.session.category = cat;	
 			console.log(req.session.genre);
 			error.success = 'Preference updated';
 				res.json(error);
-			} else {
-				error.error = 'Not valid categories and genre';
-				res.json(error);
+		}  else {
+			error.error = 'Not valid categories and genre';
+			res.json(error);
 		}		
 
 };
