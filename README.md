@@ -1,5 +1,7 @@
 ## otss-app
 
+Run ``` npm install ``` to install packages from package.json.
+
 A config file is required which contains the username and password for the endpoint to request the external /events api. Copy the following into config\config.js on the app level.
 ```
 const config = {};
