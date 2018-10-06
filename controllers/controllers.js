@@ -1,4 +1,5 @@
 const request = require('request');
+const db = require('../db/db.js');
 
 const config = require('../config/config.js');
 const options = {
@@ -36,36 +37,7 @@ const genreId = {
 	'Theatre': 'KnvZfZ7v7l1'
 };
 
-
-module.exports.addUser = function(db, preference)
- {
-	db.get('preferences')
-		.push(preference)
-		.value();
-};
-
-
-module.exports.getUser = function(db, uname, pword) {
-	return db.get('preferences')
-		.find({ user: uname, password: pword })
-		.value();
-};
-
-const updatePreference = function(db, uname, category, genre) {
-
-	db.get('preferences')
-		.find({ user: uname })
-		.assign({ category: category, genre: genre })
-	.value();
-
-};
-
-module.exports.register = function(db) {
-
-console.log(db.get('preferences')
-		.size()
-		.value());
- return function(req, res) {
+module.exports.register =  function(req, res) {
         //store login state and display 
 	//info as characters
         req.session.user = req.body.user;
@@ -74,22 +46,20 @@ console.log(db.get('preferences')
 	req.session.genre = req.body.genre;
         
 	//add to databse
-	module.exports.addUser(db, req.body);
+	db.addUser(req.body);
 
 	//print with password blocked
 	const body = JSON.parse(JSON.stringify(req.body));
 	body.password = '********';
         res.json(body);
 };
-};
 
-module.exports.login = function(db) {
-return function(req, res) {
+module.exports.login = function(req, res) {
 //check if session user exists
 //if session exists, write login true
         const login = {};
 	console.log(req.body);
-	const user = module.exports.getUser(db, req.body.user, req.body.password);
+	const user = db.getUser(req.body.user, req.body.password);
 	console.log(user);
 
         if (req.session.login && user !== undefined) {
@@ -109,7 +79,6 @@ return function(req, res) {
 			res.json(login);
 		}
 	}
-};
 };
 
 
@@ -134,9 +103,7 @@ module.exports.getEvents = function(req, res) {
 
 };
 
-module.exports.setPreferences = function(db) {
-
-	return function(req, res) {
+module.exports.setPreferences = function(req, res) {
 		//check if genre,category is valid
 		const error = {};
 		console.log(req.body);
@@ -144,7 +111,7 @@ module.exports.setPreferences = function(db) {
 		const genre = req.body.genre;
 
 		if (categories.includes(cat) && genreId[genre] !== undefined) {
-			updatePreference(db, req.session.user, cat, genre);
+			db.updatePreference(req.session.user, cat, genre);
 			req.session.genre = genre;
 			req.session.category = cat;	
 			console.log(req.session.genre);
@@ -155,6 +122,5 @@ module.exports.setPreferences = function(db) {
 				res.json(error);
 		}		
 
-	};
-
-};	
+};
+	

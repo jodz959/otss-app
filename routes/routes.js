@@ -1,14 +1,14 @@
-module.exports = function(app, db) {
+module.exports = function(app) {
 const controller = require('../controllers/controllers.js');
 app.route('/register')
-	.post(controller.register(db));
+	.post(controller.register);
 
 app.route('/login')
-	.post(controller.login(db));
+	.post(controller.login);
 
 app.route('/getEvents')
 	.get(controller.getEvents);
 
 app.route('/setPreferences')
-	.post(controller.setPreferences(db));
+	.post(controller.setPreferences);
 };
