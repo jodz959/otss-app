@@ -2,7 +2,7 @@
 
 Run ``` npm install ``` to install packages from package.json.
 
-A config file is required which contains the username and password for the endpoint to request the external /events api. Copy the following into config\config.js on the app level.
+A config file is required which contains the username and password for the endpoint to request the external ``` /events api ```. Create a config directory and file that is, ``` config\config.js ```, on the app level. Add the following to ``` config.js ```, replacing username and password with your credentials. 
 ```
 const config = {};
 
