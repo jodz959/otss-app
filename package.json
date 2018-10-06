@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Application for otss",
   "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,6 +24,8 @@
     "nodemon": "^1.18.4"
   },
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "lowdb": "^1.0.0",
