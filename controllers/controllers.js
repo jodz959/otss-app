@@ -38,7 +38,7 @@ const genreId = {
 };
 
 const isValid = function(category, genre) {
-	if (categories.includes(cat) && genreId[genre] !== undefined) {
+	if (categories.includes(category) && genreId[genre] !== undefined) {
 		return true;
 	} else {
 		return false;
@@ -53,9 +53,9 @@ module.exports.register =  function(req, res) {
 	
 	const cat = req.body.category;
 	const genre = req.body.genre;
-	if (isValid(cat, genre) {
-		req.session.category = req.body.category;
-		req.session.genre = req.body.genre;
+	if (isValid(cat, genre)) {
+		req.session.category = cat;
+		req.session.genre = genre;
 		//add to databse
 		db.addUser(req.body);
 
@@ -124,7 +124,7 @@ module.exports.setPreferences = function(req, res) {
 		const cat = req.body.category;
 		const genre = req.body.genre;
 
-		if (isValid(cat, genre) {
+		if (isValid(cat, genre)) {
 			db.updatePreference(req.session.user, cat, genre);
 			req.session.genre = genre;
 			req.session.category = cat;	
