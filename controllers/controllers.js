@@ -37,6 +37,9 @@ const genreId = {
 	'Theatre': 'KnvZfZ7v7l1'
 };
 
+/*
+checks if category and genre exists
+*/
 const isValid = function(category, genre) {
 	if (categories.includes(category) && genreId[genre] !== undefined) {
 		return true;
@@ -44,8 +47,12 @@ const isValid = function(category, genre) {
 		return false;
 	}
 
-}
-module.exports.register =  function(req, res) {
+};
+
+/*
+registers a user and their preferences
+*/
+module.exports.register = function(req, res) {
         //store login state and display 
 	//info as characters
         req.session.user = req.body.user;
@@ -68,6 +75,9 @@ module.exports.register =  function(req, res) {
 	}
 };
 
+/*
+logs in a user that is already registered
+*/
 module.exports.login = function(req, res) {
 //check if session user exists
 //if session exists, write login true
@@ -96,8 +106,11 @@ module.exports.login = function(req, res) {
 };
 
 
-//test if user is logged in, 
-//make middleware
+ 
+/*
+gets events according to preferences
+from /events
+*/
 module.exports.getEvents = function(req, res) {
 		let query ='?classificationName='+req.session.category;
 		query =query.concat('&genreId='+genreId[req.session.genre]);	
@@ -117,6 +130,9 @@ module.exports.getEvents = function(req, res) {
 
 };
 
+/*
+sets user preferences
+*/
 module.exports.setPreferences = function(req, res) {
 		//check if genre,category is valid
 		const error = {};
@@ -131,7 +147,7 @@ module.exports.setPreferences = function(req, res) {
 			console.log(req.session.genre);
 			error.success = 'Preference updated';
 				res.json(error);
-		}  else {
+		} else {
 			error.error = 'Not valid categories and genre';
 			res.json(error);
 		}		
