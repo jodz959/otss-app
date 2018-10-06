@@ -1,5 +1,4 @@
 const request = require('request');
-const rp = require('request-promise');
 
 const config = require('../config/config.js');
 const options = {
@@ -17,7 +16,7 @@ const options = {
 	},
 	json: true
 	
-}
+};
 
 const categories = ["Arts & Theatre", "Film", "Miscellaneous", "Music", "Sports", "Undefined", "Donation", "Event Style", "Group", "Individual", "Merchandise", "Nonticket", "Parking", "Transportation", "Upsell", "Venue Based"];
 
@@ -29,14 +28,13 @@ const genreId = {
 	'Jazz': 'KnvZfZ7vAvE',
 	'Foreign': 'KnvZfZ7vAk1',
 	'Dance/Electronic': 'KnvZfZ7vAvF',
-	'Comedy': 'KnvZfZ7vAkA',
 	'Animation': 'KnvZfZ7vAkd',
 	'Music': 'KnvZfZ7vAkJ',
 	'Miscellaneous': 'KnvZfZ7vAka',
 	'Family': 'KnvZfZ7vAkF',
 	'Miscellaneous Theatre': 'KnvZfZ7v7ld',
 	'Theatre': 'KnvZfZ7v7l1'
-}
+};
 
 
 module.exports.addUser = function(db, preference)
@@ -60,7 +58,7 @@ const updatePreference = function(db, uname, category, genre) {
 		.assign({ category: category, genre: genre })
 	.value();
 
-}
+};
 
 module.exports.register = function(db) {
 
@@ -94,9 +92,6 @@ return function(req, res) {
 	const user = module.exports.getUser(db, req.body.user, req.body.password);
 	console.log(user);
 
-	const val = db.get('preferences')
-			.find({ user: req.body.user })
-			.value();
         if (req.session.login && user !== undefined) {
                 login.login = 'true';
                 res.json(login);
@@ -122,12 +117,13 @@ return function(req, res) {
 //make middleware
 module.exports.getEvents = function(req, res) {
 		let query ='?classificationName='+req.session.category;
-		query =query.concat('&genreId='+genreId[req.session.genre])	
+		query =query.concat('&genreId='+genreId[req.session.genre]);	
 		options.url = (options.url).concat(query);
 		
 		console.log(options.url);
 	request(options, function(err, response, body) {
 		console.log(response);
+	
 		if(err){
 			res.send(err);
 		} 
@@ -155,9 +151,8 @@ module.exports.setPreferences = function(db) {
 			error.success = 'Preference updated';
 				res.json(error);
 			} else {
-	
-			 error.error = 'Not valid categories and genre';
-			res.json(error);
+				error.error = 'Not valid categories and genre';
+				res.json(error);
 		}		
 
 	};
