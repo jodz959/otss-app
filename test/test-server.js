@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 
 
 describe('Post Request', function() {
-
+	//test for /register path
 	describe('/register POST', function() {
 	it('should register a user ', function(done) {
 		chai.request(server)
@@ -29,9 +29,10 @@ describe('Post Request', function() {
 				done();
 			});
 
+		});
 	});
-});
 
+	//test for /login path
 	describe('/login POST', function() {
 	it('should log in a user /login post', function(done) {
 		chai.request(server)
@@ -47,12 +48,15 @@ describe('Post Request', function() {
 				done();
 			});
 
+		});
 	});
-});
 
-	/* TODO: make test work for sessions
-	  Will always produce error since
-  	  sessions are not stored */
+	/*
+    	 Test for /setPreferences
+	 TODO: make test work for sessions
+	 Will always produce error since
+  	 sessions are not stored 
+	 */
 	describe('/setPreferences POST', function() {
 	it('should set preference /setPreference POST', function(done) {
 		chai.request(server)
@@ -69,7 +73,7 @@ describe('Post Request', function() {
 			done();
 			});
 	
+		});
 	});
-});
 
 });
