@@ -112,20 +112,20 @@ gets events according to preferences
 from /events
 */
 module.exports.getEvents = function(req, res) {
-		let query ='?classificationName='+req.session.category;
-		query =query.concat('&genreId='+genreId[req.session.genre]);	
-		options.url = (options.url).concat(query);
+	let query ='?classificationName='+req.session.category;
+	query =query.concat('&genreId='+genreId[req.session.genre]);	
+	options.url = (options.url).concat(query);
 		
-		console.log(options.url);
+	//make a request to external api to get events
 	request(options, function(err, response, body) {
 		console.log(response);
 	
 		if(err){
 			res.send(err);
-		} 
-		
-		console.log(body);
-		res.json(body);	
+		} else {		
+			console.log(body);
+			res.json(body);	
+		}
 	});
 
 };
@@ -134,23 +134,23 @@ module.exports.getEvents = function(req, res) {
 sets user preferences
 */
 module.exports.setPreferences = function(req, res) {
-		//check if genre,category is valid
-		const error = {};
-		console.log(req.body);
-		const cat = req.body.category;
-		const genre = req.body.genre;
+	//check if genre,category is valid
+	const error = {};
+	console.log(req.body);
+	const cat = req.body.category;
+	const genre = req.body.genre;
 
-		if (isValid(cat, genre)) {
-			db.updatePreference(req.session.user, cat, genre);
-			req.session.genre = genre;
-			req.session.category = cat;	
-			console.log(req.session.genre);
-			error.success = 'Preference updated';
-				res.json(error);
-		} else {
-			error.error = 'Not valid categories and genre';
+	if (isValid(cat, genre)) {
+		db.updatePreference(req.session.user, cat, genre);
+		req.session.genre = genre;
+		req.session.category = cat;	
+		console.log(req.session.genre);
+		error.success = 'Preference updated';
 			res.json(error);
-		}		
+	} else {
+		error.error = 'Not valid categories and genre';
+		res.json(error);
+	}		
 
 };
 	
