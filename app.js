@@ -1,15 +1,11 @@
 const express = require('express');
-//const low = require('lowdb');
-//const FileSync = require('lowdb/adapters/FileSync');
 const bodyParser = require('body-parser');
 const controller = require('./controllers/controllers.js');
 const session = require('express-session');
 const routes = require('./routes/routes.js');
-//const adapter = new FileSync('db.json');
 const db = require('./db/db.js');
 
 const app = express();
-//const db = low(adapter);
 
 app.use(bodyParser.urlencoded({
 	extended: true
@@ -30,14 +26,15 @@ const newUser = {
 	genre: 'comedy'
 };
 
+//create db
 db.createDb();
 db.addUser(newUser);
-//controller adds a user
-//controller.addUser(db, newUser);
+
+//get routes 
 routes(app);
 const port = process.env.PORT || 3000;
 
 app.listen(port);
 
 module.exports = app;
-console.log('listening on ' + port); 
+console.log('Listening on ' + port); 
