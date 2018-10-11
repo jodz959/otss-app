@@ -14,8 +14,7 @@ app.use(bodyParser.json());
 
 app.use(session({
 	secret: 'ghost',
-	resave: true,
-	saveUninitialized: true	 
+	resave: true
 }));
 
 //TODO: add as test cases
